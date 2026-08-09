@@ -1,6 +1,8 @@
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../core/utils/AppColors.dart';
+import '../../core/utils/AppStyle.dart';
 
 typedef MyValidate = String? Function(String?)?;
 
@@ -22,7 +24,7 @@ class CustomTextField extends StatelessWidget {
   CustomTextField({
     this.keyboardType= TextInputType.text ,
     this.controller,this.maxLines,this.borderColor,this.hintText,this.labelText,this.hintStyle,
-  this.labelStyle,this.prefixIcon,this.suffixIcon,this.obscureText,this.validator
+  this.labelStyle,this.prefixIcon,this.suffixIcon,this.obscureText,this.validator, required bool isObscureText
   });
 
   @override

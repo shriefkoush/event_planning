@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_planning_3/ui/widgets/toastMsg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../firebaseUtils.dart';
+import '../l10n/app_localizations.dart';
 import '../model/event.dart';
 
 class EventListProvider extends ChangeNotifier {

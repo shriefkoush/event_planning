@@ -6,13 +6,14 @@ import 'package:event_planning_3/ui/addEventScreen.dart';
 import 'package:event_planning_3/ui/auth/login/loginScreen.dart';
 import 'package:event_planning_3/ui/auth/register/registerScreen.dart';
 import 'package:event_planning_3/ui/homeScreen/homeScreen.dart';
-import 'package:event_planning_3/utils/appTheme.dart';
+import 'package:event_planning_3/ui/splash/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'core/utils/appTheme.dart';
 import 'firebase_options.dart';
+import 'l10n/app_localizations.dart';
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,8 +46,9 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(languageProvider.appLanguage),
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        SplashScreen.routeName : (context)=> const SplashScreen(),
         HomeScreen.routeName : (context)=> HomeScreen(),
         LoginScreen.routeName : (context)=> LoginScreen(),
         AddEventScreen.routeName : (context)=> AddEventScreen(),

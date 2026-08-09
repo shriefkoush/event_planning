@@ -1,15 +1,16 @@
+import 'package:event_planning_3/core/helpers/shared_pref_helper.dart';
 import 'package:event_planning_3/ui/auth/register/registerScreen.dart';
 import 'package:event_planning_3/ui/homeScreen/homeScreen.dart';
 import 'package:event_planning_3/ui/widgets/customElevatedButton.dart';
 import 'package:event_planning_3/ui/widgets/customTextFeild.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../core/utils/AppColors.dart';
+import '../../../core/utils/AppStyle.dart';
+import '../../../core/utils/assets_Manager.dart';
+import '../../../core/utils/dialogUtils.dart';
+import '../../../l10n/app_localizations.dart';
 
-import '../../../utils/dialogUtils.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "loginScreen";
@@ -19,8 +20,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var emailController = TextEditingController(text: "shrief@gmail.com");
-  var passwordController = TextEditingController(text: "123456");
+  bool isObscureText = true;
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: height * 0.01),
                 CustomTextField(
+                  isObscureText: isObscureText,
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (text) {
@@ -59,14 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   },
-                  prefixIcon: Icon(Icons.email, color: AppColors.greyColor),
+                  prefixIcon: Icon(Icons.person,
+                      size: 25
+                      ,color: AppColors.greyColor),
                   hintStyle: AppStyle.Mediam16grey,
                   hintText: AppLocalizations.of(context)!.email,
                 ),
                 SizedBox(height: height * 0.02),
                 CustomTextField(
+                  isObscureText: isObscureText,
                   controller: passwordController,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.visiblePassword,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "please, enter your password!";
@@ -76,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   },
-                  prefixIcon: Icon(Icons.password, color: AppColors.greyColor),
+                  prefixIcon: Icon(Icons.lock, color: AppColors.greyColor),
                   suffixIcon: Icon(
                     Icons.visibility_off,
                     color: AppColors.greyColor,
@@ -182,6 +188,12 @@ class _LoginScreenState extends State<LoginScreen> {
             email: emailController.text,
             password: passwordController.text
         );
+        if (credential.user != null) {
+          await SharedPrefHelper.saveUserSession(
+            tokenOrUid: credential.user!.uid,
+            sessionDurationDays: 20,
+          );
+        }
         // todo hide loading
         DialogUtils.hideLoading(context);
         // todo show message

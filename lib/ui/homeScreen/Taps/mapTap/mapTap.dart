@@ -1,5 +1,6 @@
-import 'package:event_planning_3/utils/AppColors.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../../../core/utils/AppColors.dart';
 
 class MapTap extends StatelessWidget {
 

@@ -1,14 +1,17 @@
+import 'package:event_planning_3/core/helpers/shared_pref_helper.dart';
 import 'package:event_planning_3/ui/auth/login/loginScreen.dart';
 import 'package:event_planning_3/ui/homeScreen/homeScreen.dart';
 import 'package:event_planning_3/ui/widgets/customElevatedButton.dart';
 import 'package:event_planning_3/ui/widgets/customTextFeild.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
-import 'package:event_planning_3/utils/dialogUtils.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../core/utils/AppColors.dart';
+import '../../../core/utils/AppStyle.dart';
+import '../../../core/utils/assets_Manager.dart';
+import '../../../core/utils/dialogUtils.dart';
+import '../../../l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "registerScreen";
@@ -18,10 +21,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  var nameController = TextEditingController(text: "shrief");
-  var emailController = TextEditingController(text: "shrief@gmail.com");
-  var passwordController = TextEditingController(text: "123456");
-  var rePasswordController = TextEditingController(text: "123456");
+  bool isObscureText = true;
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var rePasswordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -29,15 +33,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          AppLocalizations.of(context)!.register,
-          style: AppStyle.Mediam16black,
-        ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text(
+      //     AppLocalizations.of(context)!.register,
+      //     style: AppStyle.Mediam20white,
+      //   ),
+      // ),
       body: Padding(
-        padding: EdgeInsets.only(left: width * 0.02, right: width * 0.02),
+        padding: EdgeInsets.symmetric(vertical: height*0.07 ,horizontal: width*0.02),
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -48,8 +52,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: height * 0.22,
                   image: AssetImage(AssetsManager.logoImage),
                 ),
-                SizedBox(height: height * 0.02),
+                SizedBox(height: height * 0.022),
                 CustomTextField(
+                  isObscureText: isObscureText,
                   controller: nameController,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
@@ -63,6 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: height * 0.02),
                 CustomTextField(
+                  isObscureText: isObscureText,
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (text) {
@@ -83,8 +89,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: height * 0.02),
                 CustomTextField(
+                  isObscureText: isObscureText,
                   controller: passwordController,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.visiblePassword,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "please, enter your password!";
@@ -94,10 +101,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                     return null;
                   },
-                  prefixIcon: Icon(Icons.password, color: AppColors.greyColor),
-                  suffixIcon: Icon(
-                    Icons.visibility_off,
-                    color: AppColors.greyColor,
+                  prefixIcon: Icon(Icons.lock, color: AppColors.greyColor),
+                  // suffixIcon: Icon(
+                  //   Icons.visibility_off,
+                  //   color: AppColors.greyColor,
+                  // ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isObscureText = !isObscureText;
+                      });
+                    },
+                    child: Icon(
+                      isObscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility,
+                      color: AppColors.blueColor,
+                    ),
                   ),
                   obscureText: true,
                   hintStyle: AppStyle.Mediam16grey,
@@ -105,8 +125,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: height * 0.02),
                 CustomTextField(
+                  isObscureText: isObscureText,
                   controller: rePasswordController,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.visiblePassword,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "please, enter your re-password!";
@@ -119,10 +140,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                     return null;
                   },
-                  prefixIcon: Icon(Icons.password, color: AppColors.greyColor),
-                  suffixIcon: Icon(
-                    Icons.visibility_off,
-                    color: AppColors.greyColor,
+                  prefixIcon: Icon(Icons.lock, color: AppColors.greyColor),
+                  // suffixIcon: Icon(
+                  //   Icons.visibility_off,
+                  //   color: AppColors.greyColor,
+                  // ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isObscureText = !isObscureText;
+                      });
+                    },
+                    child: Icon(
+                      isObscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility,
+                      color: AppColors.blueColor,
+                    ),
                   ),
                   obscureText: true,
                   hintStyle: AppStyle.Mediam16grey,
@@ -174,6 +208,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           email: emailController.text,
           password: passwordController.text,
         );
+        if (credential.user != null) {
+          await SharedPrefHelper.saveUserSession(
+            tokenOrUid: credential.user!.uid,
+            sessionDurationDays: 20,
+          );
+        }
         // todo hide loading
         DialogUtils.hideLoading(context);
         // todo show message

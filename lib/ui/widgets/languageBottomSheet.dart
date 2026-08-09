@@ -1,10 +1,11 @@
 import 'package:event_planning_3/providers/appLanguageProvider.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/utils/AppColors.dart';
+import '../../core/utils/AppStyle.dart';
+import '../../l10n/app_localizations.dart';
 
 class Languagebottomsheet extends StatefulWidget {
 

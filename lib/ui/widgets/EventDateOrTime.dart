@@ -1,7 +1,8 @@
-import 'package:event_planning_3/utils/AppStyle.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/utils/AppStyle.dart';
 
 class EventDateOrTime extends StatelessWidget {
   String iconName;
@@ -25,7 +26,9 @@ class EventDateOrTime extends StatelessWidget {
         Spacer(),
         TextButton(onPressed: (){
           chooseDateOrTimeClicked();
-        }, child: Text(chooseDateOrTime,style: AppStyle.Mediam16primary,))
+        }, child: Text(chooseDateOrTime,style: AppStyle.Mediam16primary.copyWith(
+          color: Theme.of(context).primaryColor
+        ),))
       ],
     );
   }

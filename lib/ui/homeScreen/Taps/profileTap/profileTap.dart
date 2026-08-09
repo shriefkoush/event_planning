@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:event_planning_3/providers/appLanguageProvider.dart';
 import 'package:event_planning_3/providers/appThemeProvider.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/helpers/shared_pref_helper.dart';
+import '../../../../core/utils/AppColors.dart';
+import '../../../../core/utils/AppStyle.dart';
+import '../../../../core/utils/assets_Manager.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../auth/login/loginScreen.dart';
 import '../../../widgets/languageBottomSheet.dart';
 import '../../../widgets/themeBottomSheet.dart';
 
@@ -26,8 +29,9 @@ class _ProfileTapState extends State<ProfileTap> {
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
     return Scaffold(
+
       appBar: AppBar(
-        backgroundColor: AppColors.primaryLight,
+        backgroundColor: Theme.of(context).primaryColor,
         toolbarHeight: height*0.18,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(65))
@@ -60,7 +64,7 @@ class _ProfileTapState extends State<ProfileTap> {
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.primaryLight),
+                  border: Border.all(color: Theme.of(context).primaryColor),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,9 +72,11 @@ class _ProfileTapState extends State<ProfileTap> {
                     Text(languageProvider.appLanguage=="en"?
                       AppLocalizations.of(context)!.english:
                         AppLocalizations.of(context)!.arabic
-                      ,style: AppStyle.bold20primary,),
+                      ,style: AppStyle.bold20primary.copyWith(
+                        color: Theme.of(context).primaryColor
+                      ),),
                     SizedBox(height: height*0.02,),
-                    Icon(Icons.arrow_drop_down,size: 25,color: AppColors.primaryLight)
+                    Icon(Icons.arrow_drop_down,size: 25,color: Theme.of(context).primaryColor)
                   ],
                 ),
               ),
@@ -89,7 +95,7 @@ class _ProfileTapState extends State<ProfileTap> {
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.primaryLight),
+                  border: Border.all(color: Theme.of(context).primaryColor),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,9 +104,11 @@ class _ProfileTapState extends State<ProfileTap> {
                     themeProvider.appTheme== ThemeMode.dark?
                         AppLocalizations.of(context)!.dark:
                         AppLocalizations.of(context)!.light
-                      ,style: AppStyle.bold20primary,),
+                      ,style: AppStyle.bold20primary.copyWith(
+                        color: Theme.of(context).primaryColor
+                    ),),
                     SizedBox(height: height*0.02,),
-                    Icon(Icons.arrow_drop_down,size: 25,color: AppColors.primaryLight)
+                    Icon(Icons.arrow_drop_down,size: 25,color: Theme.of(context).primaryColor)
                   ],
                 ),
               ),
@@ -117,7 +125,17 @@ class _ProfileTapState extends State<ProfileTap> {
                 ),
                 backgroundColor: AppColors.redColor
               ),
-                onPressed: (){},
+                onPressed: () async {
+                  await SharedPrefHelper.clearUserSession();
+                  await FirebaseAuth.instance.signOut();
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      LoginScreen.routeName,
+                      (route) => false,
+                    );
+                  }
+                },
                 child: Row(
                   children: [
                     Icon(Icons.exit_to_app,size: 30,color: AppColors.whiteColor,),

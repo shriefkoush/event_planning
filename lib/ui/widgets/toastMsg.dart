@@ -1,6 +1,6 @@
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../core/utils/AppColors.dart';
 
 class ToastMessage {
   static Future<bool?> toastMsg ({required String msg}){

@@ -1,18 +1,19 @@
 import 'package:event_planning_3/providers/eventListProvider.dart';
 import 'package:event_planning_3/ui/widgets/customTextFeild.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/utils/AppStyle.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../widgets/eventItemWidget.dart';
 
 class FavoriteTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isObscureText = true;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var eventListProvider = Provider.of<EventListProvider>(context);
@@ -29,10 +30,13 @@ class FavoriteTap extends StatelessWidget {
         ),
         child: Column(children: [
           CustomTextField(
+            isObscureText: isObscureText,
             hintText: AppLocalizations.of(context)!.search_event,
-            hintStyle: AppStyle.bold14primary,
-            prefixIcon: Icon(Icons.search,color: AppColors.primaryLight,),
-            borderColor: AppColors.primaryLight,
+            hintStyle: AppStyle.bold14primary.copyWith(
+              color: Theme.of(context).primaryColor
+            ),
+            prefixIcon: Icon(Icons.search,color: Theme.of(context).primaryColor,),
+            borderColor: Theme.of(context).primaryColor,
           ),
           Expanded(child:
               eventListProvider.favoriteEventList.isEmpty?

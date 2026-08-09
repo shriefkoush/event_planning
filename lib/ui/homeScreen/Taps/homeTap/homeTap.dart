@@ -1,15 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:event_planning_3/firebaseUtils.dart';
+
 import 'package:event_planning_3/providers/eventListProvider.dart';
 import 'package:event_planning_3/ui/widgets/eventItemWidget.dart';
 import 'package:event_planning_3/ui/widgets/eventTapWidget.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/utils/AppColors.dart';
+import '../../../../core/utils/AppStyle.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../model/event.dart';
 
 class Hometap extends StatefulWidget {
@@ -43,7 +43,7 @@ class _HometapState extends State<Hometap> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height * 0.1,
-        backgroundColor: AppColors.primaryLight,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -66,24 +66,27 @@ class _HometapState extends State<Hometap> {
                     horizontal: width * 0.015,
                     vertical: height * 0.01,
                   ),
-                  child: Text("En", style: AppStyle.bold20primary),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: AppColors.whiteColor,
                   ),
+                  child: Text("En", style: AppStyle.bold20primary.copyWith(
+                    color: Theme.of(context).primaryColor
+                  )),
                 ),
               ],
             ),
           ],
         ),
       ),
+      // backgroundColor: Theme.of(context).primaryColor,
       body: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: width * 0.04),
             height: height * 0.13,
             decoration: BoxDecoration(
-              color: AppColors.primaryLight,
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
                 bottomRight: Radius.circular(40),
@@ -120,9 +123,11 @@ class _HometapState extends State<Hometap> {
                         eventListProvider.eventNameList.map((eventName) {
                           return EventTapWidget(
                             backgroundColor: AppColors.whiteColor,
-                            borderSelectedColor: AppColors.primaryLight,
+                            borderSelectedColor: Theme.of(context).primaryColor,
                             borderUnSelectedColor: AppColors.whiteColor,
-                            selectedStyle: AppStyle.Mediam16primary,
+                            selectedStyle: AppStyle.Mediam16primary.copyWith(
+                              color:  Theme.of(context).primaryColor,
+                            ),
                             unSelectedStyle: AppStyle.Mediam16white,
                             eventName: eventName,
                             isSelected:

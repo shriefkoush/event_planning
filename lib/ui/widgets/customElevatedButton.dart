@@ -1,9 +1,8 @@
 
-import 'package:event_planning_3/utils/assets_Manager.dart';
 import 'package:flutter/material.dart';
-import '../../utils/AppColors.dart';
-import '../../utils/AppStyle.dart';
 
+import '../../core/utils/AppColors.dart';
+import '../../core/utils/AppStyle.dart';
 class CustomElevatedButton extends StatelessWidget {
   Function onButtonClick;
   String text;
@@ -25,7 +24,7 @@ class CustomElevatedButton extends StatelessWidget {
             elevation: 0,
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: AppColors.primaryLight
+                  color: AppColors.transparentColor
                 ),
                 borderRadius: BorderRadius.circular(16),
               ),

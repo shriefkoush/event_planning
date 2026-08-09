@@ -5,15 +5,15 @@ import 'package:event_planning_3/ui/widgets/EventDateOrTime.dart';
 import 'package:event_planning_3/ui/widgets/customElevatedButton.dart';
 import 'package:event_planning_3/ui/widgets/customTextFeild.dart';
 import 'package:event_planning_3/ui/widgets/eventTapWidget.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../core/utils/AppColors.dart';
+import '../core/utils/AppStyle.dart';
+import '../core/utils/assets_Manager.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/eventListProvider.dart';
 
 class AddEventScreen extends StatefulWidget {
@@ -24,6 +24,7 @@ class AddEventScreen extends StatefulWidget {
 }
 
 class _AddEventScreenState extends State<AddEventScreen> {
+  bool isObscureText = true;
  int selectedIndex = 0;
  var formKey = GlobalKey<FormState>();
  var titleController = TextEditingController();
@@ -68,10 +69,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: AppColors.primaryLight
+          color: AppColors.whiteColor
         ),
         centerTitle: true,
-        title: Text(AppLocalizations.of(context)!.create_event,style: AppStyle.Mediam20primary,),
+        title: Text(AppLocalizations.of(context)!.create_event,
+          style: AppStyle.Mediam20primary.copyWith(
+            color: AppColors.whiteColor
+          ),),
       ),
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: width*0.02,
@@ -99,11 +103,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     });
                   },
                   child: EventTapWidget(
-                    borderUnSelectedColor: AppColors.primaryLight,
+                    borderUnSelectedColor: Theme.of(context).primaryColor,
                     borderSelectedColor: AppColors.whiteColor,
                     selectedStyle: AppStyle.Mediam16white,
-                    unSelectedStyle: AppStyle.Mediam16primary,
-                    backgroundColor: AppColors.primaryLight,
+                    unSelectedStyle: AppStyle.Mediam16primary.copyWith(
+                      color: Theme.of(context).primaryColor
+                    ),
+                    backgroundColor: Theme.of(context).primaryColor,
                       eventName: eventNameList[index],
                       isSelected: selectedIndex== index ),
                 );
@@ -122,6 +128,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
              Text(AppLocalizations.of(context)!.title,style: AppStyle.Mediam16black,),
              SizedBox(height: height*0.015,),
              CustomTextField(
+               isObscureText: isObscureText,
                controller: titleController,
                validator: (text){
                  if(text== null || text.isEmpty){
@@ -136,6 +143,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
              Text(AppLocalizations.of(context)!.description,style: AppStyle.Mediam16black,),
              SizedBox(height: height*0.015,),
              CustomTextField(
+               isObscureText: isObscureText,
                controller: descriptionController,
                validator: (text){
                  if(text== null || text.isEmpty){
@@ -150,7 +158,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
              SizedBox(height: height*0.015,),
              EventDateOrTime(iconName: AssetsManager.dateIcon,
                chooseDateOrTimeClicked: chooseDate,
-               chooseDateOrTime: selectedDate== null? AppLocalizations.of(context)!.choose_date:
+               chooseDateOrTime: selectedDate== null?
+               AppLocalizations.of(context)!.choose_date:
                DateFormat("dd/MM/yyyy").format(selectedDate!),
                eventDateOrTime:  AppLocalizations.of(context)!.event_date
                ,),
@@ -165,14 +174,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
              Container(decoration: BoxDecoration(
                  borderRadius: BorderRadius.circular(16),
                  border: Border.all(
-                     color: AppColors.primaryLight
+                     color: Theme.of(context).primaryColor
                  )
              ),
                padding: EdgeInsets.symmetric(vertical: height*0.01,horizontal: width*0.02),
                child: Row(children: [
                  Container(
                    decoration: BoxDecoration(
-                     color: AppColors.primaryLight,
+                     color: Theme.of(context).primaryColor,
                      borderRadius: BorderRadius.circular(16),
                    ),
                    padding: EdgeInsets.symmetric(vertical: height*0.015,horizontal: width*0.03),
@@ -181,17 +190,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
                    ),),
                  SizedBox(width: width*0.02,),
                  Text(AppLocalizations.of(context)!.choose_event_location,style:
-                 AppStyle.Mediam16primary
+                 AppStyle.Mediam16primary.copyWith(color: Theme.of(context).primaryColor)
                    ,),
                  Spacer(),
                  IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios_rounded,
-                   color: AppColors.primaryLight,
+                   color: Theme.of(context).primaryColor,
                    size: 20,
                  ))
                ],),
              ),
              SizedBox(height: height*0.02,),
-             CustomElevatedButton(onButtonClick: (){
+             CustomElevatedButton(
+                 color: Theme.of(context).primaryColor,
+                 onButtonClick: (){
                addEvent();
              },
                  text: AppLocalizations.of(context)!.add_event)

@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:event_planning_3/model/event.dart';
 import 'package:event_planning_3/providers/eventListProvider.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/AppStyle.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/utils/AppColors.dart';
+import '../../core/utils/AppStyle.dart';
 
 class EventItemWidget extends StatelessWidget {
   Event event ;
@@ -29,7 +29,7 @@ class EventItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.primaryLight,
+          color: Theme.of(context).primaryColor,
           width: 2,
         ),
         image: DecorationImage(
@@ -56,9 +56,13 @@ class EventItemWidget extends StatelessWidget {
           ),
           child: Column(children: [
             Text(event.dateTime.day.toString()
-              ,style: AppStyle.bold20primary,),
+              ,style: AppStyle.bold20primary.copyWith(
+                  color:  Theme.of(context).primaryColor,
+                ),),
             Text(DateFormat("MMM").format(event.dateTime)
-              ,style: AppStyle.bold20primary,)
+              ,style: AppStyle.bold20primary.copyWith(
+                color:  Theme.of(context).primaryColor,
+              ),)
           ],),
           ),
           Container(
@@ -85,9 +89,9 @@ class EventItemWidget extends StatelessWidget {
                   child:
                   event.isFavorite == true?
                   Icon(
-                    Icons.favorite,color: AppColors.primaryLight,size: 27,):
+                    Icons.favorite,color:  Theme.of(context).primaryColor,size: 27,):
                   Icon(
-                    Icons.favorite_border,color: AppColors.primaryLight,size: 27,)
+                    Icons.favorite_border,color: Theme.of(context).primaryColor,size: 27,)
               )
             ],
           ),

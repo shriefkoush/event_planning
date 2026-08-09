@@ -2,11 +2,11 @@ import 'package:event_planning_3/ui/addEventScreen.dart';
 import 'package:event_planning_3/ui/homeScreen/Taps/favoriteTap/favoriteTap.dart';
 import 'package:event_planning_3/ui/homeScreen/Taps/homeTap/homeTap.dart';
 import 'package:event_planning_3/ui/homeScreen/Taps/profileTap/profileTap.dart';
-import 'package:event_planning_3/utils/AppColors.dart';
-import 'package:event_planning_3/utils/assets_Manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../core/utils/AppColors.dart';
+import '../../core/utils/assets_Manager.dart';
+import '../../l10n/app_localizations.dart';
 import 'Taps/mapTap/mapTap.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,10 +27,10 @@ List<Widget> taps = [Hometap(),MapTap(),FavoriteTap(),ProfileTap()];
           canvasColor: AppColors.transparentColor
         ),
         child: BottomAppBar(
-          shape: CircularNotchedRectangle(
-          ),
-          notchMargin: 4,
           child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: AppColors.whiteColor,
+            unselectedItemColor: AppColors.whiteColor,
             currentIndex: selectedIndex,
             onTap: (index){
               selectedIndex = index;
@@ -65,16 +65,16 @@ List<Widget> taps = [Hometap(),MapTap(),FavoriteTap(),ProfileTap()];
       floatingActionButton: FloatingActionButton(
         shape: StadiumBorder(
           side: BorderSide(
-            width: 5,
+            width: 4,
             color: AppColors.whiteColor
           ),
         ),
         onPressed: (){
           Navigator.pushNamed(context, AddEventScreen.routeName);
         },
+      backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add,size: 30,color: AppColors.whiteColor,
       ),
-      backgroundColor: Theme.of(context).primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: taps[selectedIndex],
